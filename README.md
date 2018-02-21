@@ -16,8 +16,13 @@ and showcasing various different methods available to do that.
 
 ## Road Map
 * Read the data
-* Apply encription algorithm on the data
+* Apply encryption algorithm on the data
 * Use image as an interface and perform minor changes on image using the encrypted data
 * Read the image and extract those changes
 * Collect all the changes in proper order
 * Decrypt the ordered encrypted data to extract original data
+
+## Possible Upgradation
+* Input data can be of any form be it audio, video, image, text etc.
+* Can use audio, video, image as possible interface
+* Result can be split into different mediums
