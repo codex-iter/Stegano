@@ -13,3 +13,11 @@ Hiding encrypted data within a medium takes it a step further and maximizes Secu
 
 Stegano aims to provide a complete solution for secure data encapsulation within a medium
 and showcasing various different methods available to do that.
+
+## Road Map
+* Read the data
+* Apply encription algorithm on the data
+* Use image as an interface and perform minor changes on image using the encrypted data
+* Read the image and extract those changes
+* Collect all the changes in proper order
+* Decrypt the ordered encrypted data to extract original data
