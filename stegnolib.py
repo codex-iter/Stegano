@@ -58,10 +58,27 @@ def az_lsb_retv(imagename):
 	file = open('output.txt','w')
 
 	height,width = img.shape[:2]
-	print(width,height)
 
+	bin_data = ''
+	length = 0
+	for j in range(0,height):
+		for i in range(0,width):
+			pix = img[j,i].copy()
+			for k in range(0,3):
+				bit_data = pix[k] & 0b0000001
+				bin_data = str(bit_data)+bin_data 
+				length+=1
+				if length % 7 == 0:
+					length = 0
+					data = chr(int(bin_data,2))
+					bin_data = ''
+					if data == '\x00':
+						file.close()
+						return
+					else:
+						file.write(data)
 
 
 if __name__ == '__main__':
-	# az_lsb_embed('text.txt','image.jpg')
+	az_lsb_embed('text.txt','image.jpg')
 	az_lsb_retv('eimage.png')
