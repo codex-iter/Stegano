@@ -52,8 +52,16 @@ def az_lsb_embed(filename,imagename):
 	
 	cv2.imwrite('eimage.png',img)
 
+def az_lsb_retv(imagename):
+	img = cv2.imread(imagename,-1)
+
+	file = open('output.txt','w')
+
+	height,width = img.shape[:2]
+	print(width,height)
 
 
 
 if __name__ == '__main__':
-	az_lsb_embed('text.txt','image.jpg')
+	# az_lsb_embed('text.txt','image.jpg')
+	az_lsb_retv('eimage.png')
