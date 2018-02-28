@@ -14,19 +14,45 @@ def bitGen(reader):
 	for i in range(7):     # using null as delemeter to mark the end of the file
 		yield 0
 
-	while True:
-		yield random.randint(0,1) # return random 0s and 1s to populate the image
 
 
 def az_lsb_embed(filename,imagename):
-	file = open(filename)
+	"""Embed the message in the image"""
+	# NOTE: cv2 uses BGR instead of RGB 
+
+	file = open(filename) 
 	reader = file.read()
 	file.close()
 
-	bit = bitGen(reader)
+	bits = bitGen(reader)
 
-	for i in range(100):
-		print(next(bit))
+	img = cv2.imread(imagename,-1)
+
+	width,height,size = img.shape[1],img.shape[0],img.size
+
+	if len(reader)*7 + 7 > size:
+		print('File size exceeds the range')
+		return
+
+
+	end = 0
+	for j in range(height):
+		for i in range(width):
+			if end == len(reader)*7 + 7:
+				break
+			end += 3
+			print(i,j)
+			pix = img[j,i].copy()
+			for k in range(3):
+				bit = next(bits)
+				if bit == 1:
+					pix[k] = pix[k] | bit
+				else:
+					pix[k] = pix[k] & 0b1111110 
+			img[j,i] = pix
+
+	
+	cv2.imwrite('eimage.png',img)
 
 
 if __name__ == '__main__':
