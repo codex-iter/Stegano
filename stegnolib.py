@@ -53,6 +53,7 @@ def az_lsb_embed(filename,imagename):
 	
 
 def az_lsb_retv(imagename):
+	"""Retrieve data from the injested image"""
 	img = cv2.imread(imagename,-1)
 
 	file = open('output.txt','w')
