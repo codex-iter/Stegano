@@ -32,8 +32,6 @@ def az_lsb_embed(filename,imagename):
 	if len(reader)*7 + 7 > size: # if length of file with the delimeter is more than what image can hold return
 		print('File size exceeds the range')
 		return
-
- 
 	end = 0
 	for j in range(height):
 		for i in range(width):
@@ -62,6 +60,7 @@ def az_lsb_retv(imagename):
 
 	bin_data = ''                                  # gather the binary data of right most bit of each pixel
 	length = 0                                     # check if the length is 7 or not 
+
 	for j in range(0,height):
 		for i in range(0,width):
 			pix = img[j,i].copy() 				   # get pixel from location j,i
@@ -81,5 +80,7 @@ def az_lsb_retv(imagename):
 
 
 if __name__ == '__main__':
+
 	az_lsb_embed('text.txt','image.jpg')           # call embed function
 	az_lsb_retv('eimage.png')					   # call the retrieval function
+
