@@ -22,7 +22,6 @@ def az_lsb_embed(filename,imagename):
 
 	file = open(filename) 
 	reader = file.read()
-	print(len(reader))
 	file.close()
 
 	bits = bitGen(reader)
@@ -37,24 +36,22 @@ def az_lsb_embed(filename,imagename):
 
 
 	end = 0
-	l = 0
 	for j in range(height):
 		for i in range(width):
 			pix = img[j,i].copy() 
 			for k in range(3):  # shorthand to modify BGR in one go
 				if end == len(reader)*7 + 7: # check where the stream would end
-					break
+					cv2.imwrite('eimage.png',img)
+					return
 				end += 1
 				bit = next(bits) # iterate over each bit from the file 
-				l += 1
-				print(l)
 				if bit == 1:
 					pix[k] = pix[k] | bit # make the right most bit by using bitwise or with 
 				else:
 					pix[k] = pix[k] & 0b1111110  # make the right most bit zero by using bitwise and with 1111110
 			img[j,i] = pix # data is written in reverse order
 	
-	cv2.imwrite('eimage.png',img)
+	
 
 def az_lsb_retv(imagename):
 	img = cv2.imread(imagename,-1)
