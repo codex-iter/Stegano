@@ -22,6 +22,7 @@ def az_lsb_embed(filename,imagename):
 
 	file = open(filename) 
 	reader = file.read()
+	print(len(reader))
 	file.close()
 
 	bits = bitGen(reader)
@@ -36,14 +37,17 @@ def az_lsb_embed(filename,imagename):
 
 
 	end = 0
+	l = 0
 	for j in range(height):
 		for i in range(width):
-			if end == len(reader)*7 + 7: # check where the stream would end
-				break
-			end += 3
 			pix = img[j,i].copy() 
 			for k in range(3):  # shorthand to modify BGR in one go
+				if end == len(reader)*7 + 7: # check where the stream would end
+					break
+				end += 1
 				bit = next(bits) # iterate over each bit from the file 
+				l += 1
+				print(l)
 				if bit == 1:
 					pix[k] = pix[k] | bit # make the right most bit by using bitwise or with 
 				else:
