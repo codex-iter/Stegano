@@ -1,6 +1,5 @@
 import cv2
 import numpy as np 
-import random 
 
 def bitGen(reader):
 	""" Return the character bit by bit"""
@@ -33,34 +32,35 @@ def az_lsb_embed(filename,imagename):
 	if len(reader)*7 + 7 > size: # if length of file with the delimeter is more than what image can hold return
 		print('File size exceeds the range')
 		return
-
-
 	end = 0
 	for j in range(height):
 		for i in range(width):
-			if end == len(reader)*7 + 7: # check where the stream would end
-				break
-			end += 3
 			pix = img[j,i].copy() 
-			for k in range(3):  # shorthand to modify BGR in one go
-				bit = next(bits) # iterate over each bit from the file 
+			for k in range(3):                      # shorthand to modify BGR in one go
+				if end == len(reader)*7 + 7:        # check where the stream would end
+					cv2.imwrite('eimage.png',img)	# if stream ends write to the image
+					return 							# return from the function
+				end += 1
+				bit = next(bits)                    # iterate over each bit from the file 
 				if bit == 1:
-					pix[k] = pix[k] | bit # make the right most bit by using bitwise or with 
+					pix[k] = pix[k] | bit           # make the right most bit by using bitwise or with 
 				else:
-					pix[k] = pix[k] & 0b1111110  # make the right most bit zero by using bitwise and with 1111110
-			img[j,i] = pix # data is written in reverse order
+					pix[k] = pix[k] & 0b1111110     # make the right most bit zero by using bitwise and with 1111110
+			img[j,i] = pix                          # data is written in reverse order
 	
-	cv2.imwrite('eimage.png',img)
+	
 
 def az_lsb_retv(imagename):
+	"""Retrieve data from the injested image"""
 	img = cv2.imread(imagename,-1)
 
 	file = open('output.txt','w')
 
 	height,width = img.shape[:2]
 
-	bin_data = '' # gather the binary data of right most bit of each pixel
-	length = 0    # check if the length is 7 or not 
+	bin_data = ''                                  # gather the binary data of right most bit of each pixel
+	length = 0                                     # check if the length is 7 or not 
+
 	for j in range(0,height):
 		for i in range(0,width):
 			pix = img[j,i].copy() 				   # get pixel from location j,i
@@ -80,5 +80,7 @@ def az_lsb_retv(imagename):
 
 
 if __name__ == '__main__':
-	az_lsb_embed('text.txt','image.jpg')
-	az_lsb_retv('eimage.png')
+
+	az_lsb_embed('text.txt','image.jpg')           # call embed function
+	az_lsb_retv('eimage.png')					   # call the retrieval function
+
