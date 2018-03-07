@@ -6,7 +6,7 @@ def bitGen_text(filename):
 	reader = file.read()
 	file.close()
 
-	yield len(reader)
+	yield len(reader)   # first yield the file name 
 
 	for r in reader:
 		asc = ord(r)
