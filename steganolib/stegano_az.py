@@ -27,7 +27,7 @@ def lsb_embed(filename,imagename,mode):
 		for i in range(width):
 			pix = img[j,i].copy() 
 			for k in range(3):                      # shorthand to modify BGR in one go
-				if end == file_len*7 + 7:        # check where the stream would end
+				if end == file_len*7 + 7:           # check where the stream would end
 					cv2.imwrite('eimage.png',img)	# if stream ends write to the image
 					return 							# return from the function
 				end += 1
@@ -40,11 +40,12 @@ def lsb_embed(filename,imagename,mode):
 	
 	
 
-def lsb_retv(imagename):
+def lsb_retv(filename,imagename,mode):
 	"""Retrieve data from the injested image"""
 	img = cv2.imread(imagename,-1)
 
-	file = open('output.txt','w')
+	if mode == 1:
+		file = open(filename,'w')
 
 	height,width = img.shape[:2]
 
@@ -72,5 +73,5 @@ def lsb_retv(imagename):
 if __name__ == '__main__':
 
 	lsb_embed('text.txt','image.jpg',1)           # call embed function
-	lsb_retv('eimage.png')					   # call the retrieval function
+	lsb_retv('output.txt','eimage.png',1)			  # call the retrieval function
 
