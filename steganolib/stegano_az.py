@@ -110,15 +110,16 @@ def lsb_alpha_retv(filename,imagename,mode):
 		for i in range(width):
 			a = img.getpixel((i,j))[3]
 			bit_data = a & 0b00000001
-			bin_data = str(bin_data) + bin_data
+			bin_data = str(bit_data) + bin_data
+			length+=1
 
 			if length == 7:
 				length = 0
 				data = chr(int(bin_data,2))
-				print(data)
 				bin_data = ''
 				if data == '\x00':
 					file.close()
+					return
 				else:
 					print(data)
 					file.write(data)
