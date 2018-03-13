@@ -3,7 +3,7 @@ import numpy as np
 from steganolib	import bitgen as bg
 from PIL import Image
 
-def lsb_embed(filename,imagename,mode):
+def lsb_embed(filename,imagename,outimgae,mode):
 	"""Embed the message in the image"""
 	# NOTE: cv2 uses BGR instead of RGB 
 
@@ -25,7 +25,7 @@ def lsb_embed(filename,imagename,mode):
 			pix = img[j,i].copy() 
 			for k in range(3):                      # shorthand to modify BGR in one go
 				if end == file_len*7 + 7:           # check where the stream would end
-					cv2.imwrite('eimage.png',img)	# if stream ends write to the image
+					cv2.imwrite(outimgae,img)	    # if stream ends write to the image
 					return 							# return from the function
 				end += 1
 				bit = next(bits)                    # iterate over each bit from the file 
@@ -65,7 +65,7 @@ def lsb_retv(filename,imagename,mode):
 						file.write(data)           # else write data to file
 
 
-def lsb_alpha_embed(filename,imagename,mode):
+def lsb_alpha_embed(filename,imagename,outimage,mode):
 	"""Method to embed data to apha channel of the image"""
 	if mode == 1:                                  # 1 means text file
 		bits = bg.bitGen_text(filename)            # send the filename to bit generator
@@ -86,7 +86,7 @@ def lsb_alpha_embed(filename,imagename,mode):
 		for i in range(width):                    # loops to traverse each pixel 
 			r,g,b,a = img.getpixel((i,j))         # grab rgba values 
 			if end == file_len*7+7:               # if the end of file is reached save the file and return
-				img.save('eimagealpha.png')
+				img.save(outimage)
 				return
 			bit = next(bits)                      # get bit data from bit generator
 			a = bg.setBit(a,bit)                  # set alpha value as the bit data
