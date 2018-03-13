@@ -3,11 +3,11 @@ import numpy as np
 from steganolib	import bitgen as bg
 from PIL import Image
 
-def lsb_embed(filename,imagename,outimgae,mode):
+def lsb_embed(filename,imagename,outimgae,type):
 	"""Embed the message in the image"""
 	# NOTE: cv2 uses BGR instead of RGB 
 
-	if mode == 1:                           # mode = 1 stands for the file to be embeded is a text file
+	if type == 1:                           # type = 1 stands for the file to be embeded is a text file
 		bits = bg.bitGen_text(filename)
 
 	file_len = next(bits)                   # get the length of the file
@@ -35,11 +35,11 @@ def lsb_embed(filename,imagename,outimgae,mode):
 	
 	
 
-def lsb_retv(filename,imagename,mode):
+def lsb_retv(filename,imagename,type):
 	"""Retrieve data from the injested image"""
 	img = cv2.imread(imagename,-1)                 # open the image  
 
-	if mode == 1:								   # mode = 1 stands for the file to be embeded is a text file
+	if type == 1:								   # type = 1 stands for the file to be embeded is a text file
 		file = open(filename,'w')
 
 	height,width = img.shape[:2]                   # grab width and height of the image
@@ -65,9 +65,9 @@ def lsb_retv(filename,imagename,mode):
 						file.write(data)           # else write data to file
 
 
-def lsb_alpha_embed(filename,imagename,outimage,mode):
+def lsb_alpha_embed(filename,imagename,outimage,type):
 	"""Method to embed data to apha channel of the image"""
-	if mode == 1:                                  # 1 means text file
+	if type == 1:                                  # 1 means text file
 		bits = bg.bitGen_text(filename)            # send the filename to bit generator
 
 	file_len = next(bits)                          # grab the file length 
@@ -95,12 +95,12 @@ def lsb_alpha_embed(filename,imagename,outimage,mode):
 
 
 
-def lsb_alpha_retv(filename,imagename,mode):
+def lsb_alpha_retv(filename,imagename,type):
 	"""Retrieve the data from the resultant image of alpha embed""" 
 	img = Image.open(imagename)                   # open the image
 	width,height = img.size[0],img.size[1]        # grab its width and height
 
-	if mode == 1:                                 # mode = 1 stands that the file was a text file
+	if type == 1:                                 # type = 1 stands that the file was a text file
 		file = open(filename,'w')                 # open the output text file as write mode
 
 	bin_data = ''                                 # bin_data to hold the binary data result
