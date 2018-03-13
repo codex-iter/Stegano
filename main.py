@@ -17,7 +17,7 @@ from steganolib import stegano_az as stg_az
 # stg_az.lsb_alpha_retv(textOut,imageOut,1)
 
 
-def algo_menu(choice,algo_choice):
+def algo_menu(choice,algo_choice,mode):
 	if choice is 1:
 		imageIn_loc = input('Enter the source image location : ')
 		imageIn_name = input('Enter the image file name WITH extention : ')
@@ -40,9 +40,20 @@ def algo_menu(choice,algo_choice):
 
 
 def menu():
-	print("Choose a method or press 0 to exit\n1.Embed\n2.Retrieve")
-	choice = int(input("Enter your choice : "))
-	print('')
+	print('Choose a method or press 0 to exit\n1.Embed\n2.Retrieve')
+	choice = int(input('Enter your choice : '))
+	print('\n')
+
+	print('Choose a file mode\n1.Text')
+	isvalid = False
+	while not isvalid:
+		mode = int(input('Enter your choice : '))
+		if mode in [1]:
+			isvalid = True
+		else:
+			print('Invalid choice enter again')
+	print('\n')
+	
 	if choice is 0:
 		exit()
 	elif choice in [1,2]:
@@ -54,7 +65,7 @@ def menu():
 
 			if algo_choice in [1,2]:
 				isvalid = True
-				algo_menu(choice,algo_choice)
+				algo_menu(choice,algo_choice,mode)
 			else:
 				print('Invalid choice enter again')
 	else:
