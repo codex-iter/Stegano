@@ -1,42 +1,45 @@
 from steganolib import stegano_az as stg_az
 
 
-# textIn=r"C:\Users\HP\Desktop\test\text.txt"
-# textOut=r"C:\Users\HP\Desktop\test2\output.txt"
-
-# imageIn=r"C:\Users\HP\Desktop\test\image.jpg"
-# imageOut=r"C:\Users\HP\Desktop\test2\eimage.png"
-
-# stg_az.lsb_embed(textIn,imageIn,imageOut,1)
-# stg_az.lsb_retv(textOut,imageOut,1)
-
-# textOut=r"C:\Users\HP\Desktop\test2\outalpha.txt"
-# imageOut=r"C:\Users\HP\Desktop\test2\eimagealpha.png"
-
-# stg_az.lsb_alpha_embed(textIn,imageIn,imageOut,1)
-# stg_az.lsb_alpha_retv(textOut,imageOut,1)
-
-
-def algo_menu(choice,algo_choice,mode):
+def algo_menu(choice,algo_choice,typef):
 	if choice is 1:
 		imageIn_loc = input('Enter the source image location : ')
 		imageIn_name = input('Enter the image file name WITH extention : ')
 		imageOut_loc = input('Enter the output image location : ')
-		imageOut_name = input('Enter the image file name WITH extention : ')	
-		textIn_loc = input('Enter the location of file : ')
-		textIn_name = input('Enter the name of the file WITHOUT extention : ')
+		imageOut_name = input('Enter the image file name WITHOUT extention : ')	
+		fileIn_loc = input('Enter the location of file : ')
+		fileIn_name = input('Enter the name of the file WITH extention : ')
 
-		imageIn = imageIn_loc + imageIn_name
-		imageIn = '%r' % imageIn
+		imageIn = imageIn_loc + '\\' + imageIn_name
 
-		imageOut = imageOut_loc + imageOut_name
-		imageOut = '%r' % imageOut
+		imageOut = imageOut_loc + '\\' + imageOut_name + '.png'
 
-		textIn = textIn_loc + textIn_name
-		textIn = '%r' % textIn
+		fileIn = fileIn_loc + '\\' + fileIn_name
 
-		print(imageIn,imageOut,textIn)
+		if algo_choice is 1:
+			stg_az.lsb_embed(fileIn,imageIn,imageOut,typef)
+		elif algo_choice is 2:
+			stg_az.lsb_alpha_embed(fileIn,imageIn,imageOut,typef)
 
+		print('Successfully embeded')
+
+	elif choice is 2:
+		imageOut_loc = input('Enter the output image location : ')
+		imageOut_name = input('Enter the image file name WITHOUT extention : ')
+
+		fileOut_loc = input('Enter the location of file : ')
+		fileOut_name = input('Enter the name of the file WITH extention : ')
+
+		imageOut = imageOut_loc + '\\' + imageOut_name + '.png'
+
+		fileOut = fileOut_loc + '\\' + fileOut_name
+
+		if algo_choice is 1:
+			stg_az.lsb_retv(fileOut,imageOut,typef)
+		elif algo_choice is 2:
+			stg_az.lsb_alpha_retv(fileOut,imageOut,typef)
+
+		print('Successfully retrieved')
 
 
 def menu():
@@ -44,19 +47,20 @@ def menu():
 	choice = int(input('Enter your choice : '))
 	print('\n')
 
-	print('Choose a file mode\n1.Text')
-	isvalid = False
-	while not isvalid:
-		mode = int(input('Enter your choice : '))
-		if mode in [1]:
-			isvalid = True
-		else:
-			print('Invalid choice enter again')
-	print('\n')
-	
 	if choice is 0:
 		exit()
 	elif choice in [1,2]:
+
+		print('Choose a file type\n1.Text')
+		isvalid = False
+		while not isvalid:
+			typef = int(input('Enter your choice : '))
+			if typef in [1]:
+				isvalid = True
+			else:
+				print('Invalid choice enter again')
+		print('\n')
+	
 		print('Choose an algorithm\n1.Least Significant Bit(LSB)\n2.Least Significant Bit alpha only(LSB_alpha)')
 		print('Note: To retrieve the data select the algorithm that was used to embed')
 		isvalid = False
@@ -65,7 +69,7 @@ def menu():
 
 			if algo_choice in [1,2]:
 				isvalid = True
-				algo_menu(choice,algo_choice,mode)
+				algo_menu(choice,algo_choice,typef)
 			else:
 				print('Invalid choice enter again')
 	else:
