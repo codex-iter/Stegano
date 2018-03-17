@@ -10,11 +10,11 @@ def algo_menu(choice,algo_choice,typef):
 		fileIn_loc = input('Enter the location of file : ')
 		fileIn_name = input('Enter the name of the file WITH extention : ')
 
-		imageIn = imageIn_loc + '\\' + imageIn_name
+		imageIn = imageIn_loc + '/' + imageIn_name
 
-		imageOut = imageOut_loc + '\\' + imageOut_name + '.png'
+		imageOut = imageOut_loc + '/' + imageOut_name + '.png'
 
-		fileIn = fileIn_loc + '\\' + fileIn_name
+		fileIn = fileIn_loc + '/' + fileIn_name
 
 		if algo_choice is 1:
 			stg_az.lsb_embed(fileIn,imageIn,imageOut,typef)
@@ -30,9 +30,9 @@ def algo_menu(choice,algo_choice,typef):
 		fileOut_loc = input('Enter the location of file : ')
 		fileOut_name = input('Enter the name of the file WITH extention : ')
 
-		imageOut = imageOut_loc + '\\' + imageOut_name + '.png'
+		imageOut = imageOut_loc + '/' + imageOut_name + '.png'
 
-		fileOut = fileOut_loc + '\\' + fileOut_name
+		fileOut = fileOut_loc + '/' + fileOut_name
 
 		if algo_choice is 1:
 			stg_az.lsb_retv(fileOut,imageOut,typef)
