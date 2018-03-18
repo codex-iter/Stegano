@@ -24,4 +24,7 @@ def chunk(reader,chunk_size):
 	reader_db = []
 	for i in range(0,len(reader),chunk_size):
 		reader_db.append(reader[i:i+chunk_size])
+	if(reader_db[-1].endswith('\n')):
+		print(reader_db[-1][:len(reader_db[-1])-1])
+		reader_db[-1] = reader_db[-1][:len(reader_db[-1])-1]
 	return reader_db
