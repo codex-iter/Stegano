@@ -54,7 +54,7 @@ def lsb_retv(filename,imagename,typef):
 				bit_data = pix[k] & 0b00000001     # use bitwise and with 0000001 as a result only right most bit is preserved others are set to zero
 				bin_data = str(bit_data)+bin_data  # concatenating bits in reverse order to get original data
 				length+=1				           # increment length after merging bits
-				if length == 7: 			   # if length is 7 i.e., we have 7 bits of data 
+				if length == 7: 			       # if length is 7 i.e., we have 7 bits of data 
 					length = 0					   # reset length
 					data = chr(int(bin_data,2))    # convert bits to character 
 					bin_data = '' 				   # reset the bits to empty 
