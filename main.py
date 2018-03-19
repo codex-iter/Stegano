@@ -1,45 +1,55 @@
 from steganolib import stegano_az as stg_az
+from steganolib import bitgen as bg
 
-
-def algo_menu(choice,algo_choice,typef):
+def algo_menu(choice,algo_choice,typef): 
+	ch = int(input("Enter number of image files : "))
 	if choice is 1:
-		imageIn_loc = input('Enter the source image location : ')
-		imageIn_name = input('Enter the image file name WITH extention : ')
-		imageOut_loc = input('Enter the output image location : ')
-		imageOut_name = input('Enter the image file name WITHOUT extention : ')	
 		fileIn_loc = input('Enter the location of file : ')
 		fileIn_name = input('Enter the name of the file WITH extention : ')
-
-		imageIn = imageIn_loc + '/' + imageIn_name
-
-		imageOut = imageOut_loc + '/' + imageOut_name + '.png'
-
 		fileIn = fileIn_loc + '/' + fileIn_name
-
-		if algo_choice is 1:
-			stg_az.lsb_embed(fileIn,imageIn,imageOut,typef)
-		elif algo_choice is 2:
-			stg_az.lsb_alpha_embed(fileIn,imageIn,imageOut,typef)
-
-		print('Successfully embeded')
+		file = open(fileIn)
+		reader = file.read()
+		file.close()
+		reader_db = bg.chunk(reader,ch)
 
 	elif choice is 2:
-		imageOut_loc = input('Enter the output image location : ')
-		imageOut_name = input('Enter the image file name WITHOUT extention : ')
-
 		fileOut_loc = input('Enter the location of file : ')
 		fileOut_name = input('Enter the name of the file WITH extention : ')
-
-		imageOut = imageOut_loc + '/' + imageOut_name + '.png'
-
 		fileOut = fileOut_loc + '/' + fileOut_name
 
-		if algo_choice is 1:
-			stg_az.lsb_retv(fileOut,imageOut,typef)
-		elif algo_choice is 2:
-			stg_az.lsb_alpha_retv(fileOut,imageOut,typef)
+	for i in range(ch):
+		if choice is 1:
+			print('Enter for image no :',(i+1))
+			imageIn_loc = input('Enter the source image location : ')
+			imageIn_name = input('Enter the image file name WITH extention : ')
+			imageOut_loc = input('Enter the output image location : ')
+			imageOut_name = input('Enter the image file name WITHOUT extention : ')	
+			
+			imageIn = imageIn_loc + '/' + imageIn_name
 
-		print('Successfully retrieved')
+			imageOut = imageOut_loc + '/' + imageOut_name + '.png'
+
+			if algo_choice is 1:
+				stg_az.lsb_embed(reader_db[i],imageIn,imageOut,typef)
+			elif algo_choice is 2:
+				stg_az.lsb_alpha_embed(reader_db[i],imageIn,imageOut,typef)
+
+			print('Successfully embeded')
+
+		elif choice is 2:
+			print('Extracting from image no :',(i+1))
+			imageOut_loc = input('Enter the output image location : ')
+			imageOut_name = input('Enter the image file name WITHOUT extention : ')
+
+			
+			imageOut = imageOut_loc + '/' + imageOut_name + '.png'
+
+			if algo_choice is 1:
+				stg_az.lsb_retv(fileOut,imageOut,typef)
+			elif algo_choice is 2:
+				stg_az.lsb_alpha_retv(fileOut,imageOut,typef)
+
+			print('Successfully retrieved')
 
 
 def menu():
@@ -60,7 +70,7 @@ def menu():
 			else:
 				print('Invalid choice enter again')
 		print('\n')
-	
+		
 		print('Choose an algorithm\n1.Least Significant Bit(LSB)\n2.Least Significant Bit alpha only(LSB_alpha)')
 		print('Note: To retrieve the data select the algorithm that was used to embed')
 		isvalid = False
