@@ -20,11 +20,12 @@ def setBit(pix_val,bit):
 	else:
 		return pix_val & 0b11111110 # make the right most bit zero by using bitwise and with 11111110 for 8 bit
 
-def chunk(reader,chunk_size):
+def chunk(reader,lent):
+	chunk_size = len(reader) // lent
+	k = 0
 	reader_db = []
-	for i in range(0,len(reader),chunk_size):
-		reader_db.append(reader[i:i+chunk_size])
-	if(reader_db[-1].endswith('\n')):
-		print(reader_db[-1][:len(reader_db[-1])-1])
-		reader_db[-1] = reader_db[-1][:len(reader_db[-1])-1]
+	for i in range(0,lent-1):
+		reader_db.append(reader[k:k+chunk_size]+'\x00')
+		k+=chunk_size
+	reader_db.append(reader[k:]+'\x00')
 	return reader_db
