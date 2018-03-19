@@ -13,18 +13,18 @@ file.close()
 print(len(reader))
 print(len(imageloc))
 
-chunk_size = len(reader) // len(imageloc)
+# chunk_size = len(reader) // len(imageloc)
 
-print(chunk_size,'\n\n\n')
+# print(chunk_size,'\n\n\n')
 
 db = bg.chunk(reader,len(imageloc))
 
-if len(db) > len(imageloc):
-	db[-2] = db[-2] + db[-1]
-	del db[-1]
+# if len(db) > len(imageloc):
+# 	db[-2] = db[-2] + db[-1]
+# 	del db[-1]
 
-print(len(db))
-print(db)
+# print(len(db))
+# print(db)
 
 
 for i in range(len(db)):
