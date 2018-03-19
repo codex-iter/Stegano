@@ -65,10 +65,10 @@ def lsb_retv(filename,imagename,typef):
 						file.write(data)           # else write data to file
 
 
-def lsb_alpha_embed(filename,imagename,outimage,typef):
+def lsb_alpha_embed(fileobj,imagename,outimage,typef):
 	"""Method to embed data to apha channel of the image"""
 	if typef == 1:                                  # 1 means text file
-		bits = bg.bitGen_text(filename)            # send the filename to bit generator
+		bits = bg.bitGen_text(fileobj)            # send the filename to bit generator
 
 	file_len = next(bits)                          # grab the file length 
 
@@ -101,7 +101,7 @@ def lsb_alpha_retv(filename,imagename,typef):
 	width,height = img.size[0],img.size[1]        # grab its width and height
 
 	if typef == 1:                                 # type = 1 stands that the file was a text file
-		file = open(filename,'w')                 # open the output text file as write mode
+		file = open(filename,'a')                 # open the output text file as write mode
 
 	bin_data = ''                                 # bin_data to hold the binary data result
 	length = 0                                    # used to check the length of binary data
