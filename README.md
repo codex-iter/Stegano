@@ -21,8 +21,9 @@ and showcasing various different methods available to do that.
 * Read the image and extract those changes
 * Collect all the changes in proper order
 * Decrypt the ordered encrypted data to extract original data
+* Result can be split into different mediums
 
 ## Possible Upgradation
 * Input data can be of any form be it audio, video, image, text etc.
 * Can use audio, video, image as possible interface
-* Result can be split into different mediums
+* <s>Result can be split into different mediums</s>
