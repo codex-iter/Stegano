@@ -3,12 +3,12 @@ import numpy as np
 from steganolib	import bitgen as bg
 from PIL import Image
 
-def lsb_embed(filename,imagename,outimgae,typef):
+def lsb_embed(fileobj,imagename,outimgae,typef):
 	"""Embed the message in the image"""
 	# NOTE: cv2 uses BGR instead of RGB 
 
 	if typef == 1:                           # typef = 1 stands for the file to be embeded is a text file
-		bits = bg.bitGen_text(filename)
+		bits = bg.bitGen_text(fileobj)
 
 	file_len = next(bits)                   # get the length of the file
 
@@ -39,8 +39,8 @@ def lsb_retv(filename,imagename,typef):
 	"""Retrieve data from the injested image"""
 	img = cv2.imread(imagename,-1)                 # open the image  
 
-	if typef == 1:								   # type = 1 stands for the file to be embeded is a text file
-		file = open(filename,'w')
+	if typef == 1:							   # type = 1 stands for the file to be embeded is a text file
+		file = open(filename,'a')
 
 	height,width = img.shape[:2]                   # grab width and height of the image
 
@@ -54,7 +54,7 @@ def lsb_retv(filename,imagename,typef):
 				bit_data = pix[k] & 0b00000001     # use bitwise and with 0000001 as a result only right most bit is preserved others are set to zero
 				bin_data = str(bit_data)+bin_data  # concatenating bits in reverse order to get original data
 				length+=1				           # increment length after merging bits
-				if length == 7: 			   # if length is 7 i.e., we have 7 bits of data 
+				if length == 7: 			       # if length is 7 i.e., we have 7 bits of data 
 					length = 0					   # reset length
 					data = chr(int(bin_data,2))    # convert bits to character 
 					bin_data = '' 				   # reset the bits to empty 
@@ -65,10 +65,10 @@ def lsb_retv(filename,imagename,typef):
 						file.write(data)           # else write data to file
 
 
-def lsb_alpha_embed(filename,imagename,outimage,typef):
+def lsb_alpha_embed(fileobj,imagename,outimage,typef):
 	"""Method to embed data to apha channel of the image"""
 	if typef == 1:                                  # 1 means text file
-		bits = bg.bitGen_text(filename)            # send the filename to bit generator
+		bits = bg.bitGen_text(fileobj)            # send the filename to bit generator
 
 	file_len = next(bits)                          # grab the file length 
 
@@ -101,7 +101,7 @@ def lsb_alpha_retv(filename,imagename,typef):
 	width,height = img.size[0],img.size[1]        # grab its width and height
 
 	if typef == 1:                                 # type = 1 stands that the file was a text file
-		file = open(filename,'w')                 # open the output text file as write mode
+		file = open(filename,'a')                 # open the output text file as write mode
 
 	bin_data = ''                                 # bin_data to hold the binary data result
 	length = 0                                    # used to check the length of binary data
