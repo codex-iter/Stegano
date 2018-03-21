@@ -14,6 +14,9 @@ Hiding encrypted data within a medium takes it a step further and maximizes Secu
 Stegano aims to provide a complete solution for secure data encapsulation within a medium
 and showcasing various different methods available to do that.
 
+## Dependencies
+pip3 install -r requirements.txt
+
 ## Road Map
 * Read the data
 * Apply encryption algorithm on the data
