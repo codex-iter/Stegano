@@ -117,7 +117,7 @@ def lsb_alpha_retv(filename,imagename,typef):
 
 	bin_data = ''                                 # bin_data to hold the binary data result
 	length = 0                                    # used to check the length of binary data
-
+	main_data = ''
 	for j in range(height):
 		for i in range(width):                    # traverse through each pixel
 			a = img.getpixel((i,j))[3]            # grab the alpha channel only
@@ -130,10 +130,11 @@ def lsb_alpha_retv(filename,imagename,typef):
 				data = chr(int(bin_data,2))       # convert the binary data to character
 				bin_data = ''                     # reset binary data
 				if data == '\x00':                # if the converted data is null it means we have reached end of file
+					file.write(main_data[1:])
 					file.close()                  # close the file and return
 					return
 				else: 
-					file.write(data)		      # until the end of file is reached write the data to the file
+					main_data+=data		      # until the end of file is reached write the data to the file
 			
 def retv(filename,imagename,typef):
 	"""Do decide which retrieval algorithm to use"""
