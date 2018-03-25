@@ -6,9 +6,9 @@ from PIL import Image
 def lsb_embed(fileobj,imagename,outimgae,typef):
 	"""Embed the message in the image"""
 	# NOTE: cv2 uses BGR instead of RGB 
-
+	meta = 'lsb'
 	if typef == 1:                           # typef = 1 stands for the file to be embeded is a text file
-		bits = bg.bitGen_text(fileobj)
+		bits = bg.bitGen_text(fileobj,meta)
 
 	file_len = next(bits)                   # get the length of the file
 
@@ -122,7 +122,27 @@ def lsb_alpha_retv(filename,imagename,typef):
 					return
 				else: 
 					file.write(data)		      # until the end of file is reached write the data to the file
-					 
+			
+def retv(imagename):
+	"""Do decide which retrieval algorithm to use"""
+	img = cv2.imread(imagename,-1)
+
+	meta = ''
+	bin_data = ''
+	length = 0
+	for i in range(7):
+		pix = img[j,i].copy() 				  
+			for k in range(0,3):  				   
+				bit_data = pix[k] & 0b00000001     
+				bin_data = str(bit_data)+bin_data  
+				length+=1				           
+				if length == 7: 			        
+					length = 0					   
+					data = chr(int(bin_data,2))     
+					bin_data = '' 
+					meta += data
+	print(meta)	
+
 
 if __name__ == '__main__':
 
