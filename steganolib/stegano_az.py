@@ -67,8 +67,9 @@ def lsb_retv(filename,imagename,typef):
 
 def lsb_alpha_embed(fileobj,imagename,outimage,typef):
 	"""Method to embed data to apha channel of the image"""
+	meta = 'lsa'
 	if typef == 1:                                  # 1 means text file
-		bits = bg.bitGen_text(fileobj)            # send the filename to bit generator
+		bits = bg.bitGen_text(fileobj,meta)            # send the filename to bit generator
 
 	file_len = next(bits)                          # grab the file length 
 
@@ -127,11 +128,13 @@ def retv(imagename):
 	"""Do decide which retrieval algorithm to use"""
 	img = cv2.imread(imagename,-1)
 
+	width,height = img.shape[1],img.shape[0]
 	meta = ''
 	bin_data = ''
 	length = 0
-	for i in range(7):
-		pix = img[j,i].copy() 				  
+	for j in range(height):
+		for i in range(width):
+			pix = img[j,i].copy() 				  
 			for k in range(0,3):  				   
 				bit_data = pix[k] & 0b00000001     
 				bin_data = str(bit_data)+bin_data  
@@ -141,7 +144,10 @@ def retv(imagename):
 					data = chr(int(bin_data,2))     
 					bin_data = '' 
 					meta += data
-	print(meta)	
+					if len(meta) == 3:
+						print(meta)
+						return
+
 
 
 if __name__ == '__main__':
