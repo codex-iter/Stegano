@@ -11,5 +11,5 @@ reader = file.read()
 stg_az.lsb_embed(reader,imgin1,imgout1,1)
 stg_az.retv('/home/loopaz/Desktop/out.txt',imgout1,1)
 
-# stg_az.lsb_alpha_embed(reader,imgin2,imgout2,1)
-# stg_az.retv('/home/loopaz/Desktop/out2.txt',imgout2,1)
+stg_az.lsb_alpha_embed(reader,imgin2,imgout2,1)
+stg_az.retv('/home/loopaz/Desktop/out2.txt',imgout2,1)
