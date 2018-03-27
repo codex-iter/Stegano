@@ -1,7 +1,7 @@
 from steganolib import stegano_az as stg_az
 from steganolib import bitgen as bg
 
-def algo_menu(choice,algo_choice,typef): 
+def algo_menu(choice,typef,algo_choice=0): 
 	ch = int(input("Enter number of image files : "))
 	if choice is 1:
 		fileIn_loc = input('Enter the location of file : ')
@@ -44,10 +44,7 @@ def algo_menu(choice,algo_choice,typef):
 			
 			imageOut = imageOut_loc + '/' + imageOut_name + '.png'
 
-			if algo_choice is 1:
-				stg_az.lsb_retv(fileOut,imageOut,typef)
-			elif algo_choice is 2:
-				stg_az.lsb_alpha_retv(fileOut,imageOut,typef)
+			stg_az.retv(fileOut,imageOut,typef)
 
 			print('Successfully retrieved')
 
@@ -59,7 +56,7 @@ def menu():
 
 	if choice is 0:
 		exit()
-	elif choice in [1,2]:
+	elif choice is 1:
 
 		print('Choose a file type\n1.Text')
 		isvalid = False
@@ -79,9 +76,21 @@ def menu():
 
 			if algo_choice in [1,2]:
 				isvalid = True
-				algo_menu(choice,algo_choice,typef)
+				algo_menu(choice,typef,algo_choice)
 			else:
 				print('Invalid choice enter again')
+	elif choice is 2:
+		print('Choose a file type\n1.Text')
+		isvalid = False
+		while not isvalid:
+			typef = int(input('Enter your choice : '))
+			if typef in [1]:
+				isvalid = True
+			else:
+				print('Invalid choice enter again')
+		print('\n')
+		
+		algo_menu(choice,typef)
 	else:
 		print('Invalid option')
 
