@@ -1,7 +1,7 @@
 from steganolib import stegano_az as stg_az
 from steganolib import bitgen as bg
 
-def algo_menu(choice,algo_choice,typef): 
+def algo_menu(choice,typef,algo_choice=0): 
 	ch = int(input("Enter number of image files : "))
 	if choice is 1:
 		fileIn_loc = input('Enter the location of file : ')
@@ -16,6 +16,8 @@ def algo_menu(choice,algo_choice,typef):
 		fileOut_loc = input('Enter the location of file : ')
 		fileOut_name = input('Enter the name of the file WITH extention : ')
 		fileOut = fileOut_loc + '/' + fileOut_name
+		file = open(fileOut,'w')
+		data_base ={}
 
 	for i in range(ch):
 		if choice is 1:
@@ -30,9 +32,11 @@ def algo_menu(choice,algo_choice,typef):
 			imageOut = imageOut_loc + '/' + imageOut_name + '.png'
 
 			if algo_choice is 1:
-				stg_az.lsb_embed(reader_db[i],imageIn,imageOut,typef)
+				meta = 'lsb' + '|' + str(i) + ':'
+				stg_az.lsb_embed(reader_db[i],imageIn,imageOut,typef,meta)
 			elif algo_choice is 2:
-				stg_az.lsb_alpha_embed(reader_db[i],imageIn,imageOut,typef)
+				meta = 'lsa' + '|' + str(i) + ':'
+				stg_az.lsb_alpha_embed(reader_db[i],imageIn,imageOut,typef,meta)
 
 			print('Successfully embeded')
 
@@ -40,16 +44,17 @@ def algo_menu(choice,algo_choice,typef):
 			print('Extracting from image no :',(i+1))
 			imageOut_loc = input('Enter the output image location : ')
 			imageOut_name = input('Enter the image file name WITHOUT extention : ')
-
 			
 			imageOut = imageOut_loc + '/' + imageOut_name + '.png'
 
-			if algo_choice is 1:
-				stg_az.lsb_retv(fileOut,imageOut,typef)
-			elif algo_choice is 2:
-				stg_az.lsb_alpha_retv(fileOut,imageOut,typef)
-
+			data_base.update(stg_az.retv(imageOut,typef))
 			print('Successfully retrieved')
+
+	if choice is 2:
+		for order in range(ch):
+			file.write(data_base[order])
+		file.close()
+		print('Merged to file')
 
 
 def menu():
@@ -59,7 +64,7 @@ def menu():
 
 	if choice is 0:
 		exit()
-	elif choice in [1,2]:
+	elif choice is 1:
 
 		print('Choose a file type\n1.Text')
 		isvalid = False
@@ -72,16 +77,27 @@ def menu():
 		print('\n')
 		
 		print('Choose an algorithm\n1.Least Significant Bit(LSB)\n2.Least Significant Bit alpha only(LSB_alpha)')
-		print('Note: To retrieve the data select the algorithm that was used to embed')
 		isvalid = False
 		while not isvalid:
 			algo_choice = int(input('Enter your choice : '))
 
 			if algo_choice in [1,2]:
 				isvalid = True
-				algo_menu(choice,algo_choice,typef)
+				algo_menu(choice,typef,algo_choice)
 			else:
 				print('Invalid choice enter again')
+	elif choice is 2:
+		print('Choose a file type\n1.Text')
+		isvalid = False
+		while not isvalid:
+			typef = int(input('Enter your choice : '))
+			if typef in [1]:
+				isvalid = True
+			else:
+				print('Invalid choice enter again')
+		print('\n')
+		
+		algo_menu(choice,typef)
 	else:
 		print('Invalid option')
 

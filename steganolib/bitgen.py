@@ -1,6 +1,8 @@
 
-def bitGen_text(reader):
+def bitGen_text(reader,meta):
 	""" Return the character bit by bit"""
+
+	reader = meta + reader
 
 	yield len(reader)   # first yield the file name 
 
