@@ -3,10 +3,9 @@ import numpy as np
 from steganolib	import bitgen as bg
 from PIL import Image
 
-def lsb_embed(fileobj,imagename,outimgae,typef):
+def lsb_embed(fileobj,imagename,outimgae,typef,meta):
 	"""Embed the message in the image"""
 	# NOTE: cv2 uses BGR instead of RGB 
-	meta = 'lsb'
 	if typef == 1:                           # typef = 1 stands for the file to be embeded is a text file
 		bits = bg.bitGen_text(fileobj,meta)
 
@@ -35,12 +34,12 @@ def lsb_embed(fileobj,imagename,outimgae,typef):
 	
 	
 
-def lsb_retv(filename,imagename,typef):
+def lsb_retv(imagename,typef,start):
 	"""Retrieve data from the injested image"""
 	img = cv2.imread(imagename,-1)                 # open the image  
 
-	if typef == 1:							   # type = 1 stands for the file to be embeded is a text file
-		file = open(filename,'a')
+	# if typef == 1:							   # type = 1 stands for the file to be embeded is a text file
+	# 	file = open(filename,'w')
 
 	height,width = img.shape[:2]                   # grab width and height of the image
 
@@ -59,16 +58,17 @@ def lsb_retv(filename,imagename,typef):
 					data = chr(int(bin_data,2))    # convert bits to character 
 					bin_data = '' 				   # reset the bits to empty 
 					if data == '\x00':             # if the coverted char is null then delimeter found hence close the file and return
-						file.write(main_data[3:])
-						file.close()
-						return
+						main_data = main_data[start:]
+						return main_data
 					else:
 						main_data+=data           # else write data to file
 
 
-def lsb_alpha_embed(fileobj,imagename,outimage,typef):
+def lsb_alpha_embed(fileobj,imagename,outimage,typef,meta):
 	"""Method to embed data to apha channel of the image"""
-	meta = 'lsa'
+	if len(meta) % 3 != 0:
+		meta = meta + (3 - len(meta)%3)*' '
+	print(meta,len(meta))
 	if typef == 1:                                  # 1 means text file
 		bits = bg.bitGen_text(fileobj,meta)            # send the filename to bit generator
 
@@ -91,14 +91,15 @@ def lsb_alpha_embed(fileobj,imagename,outimage,typef):
 			if end == file_len*7+7:               # if the end of file is reached save the file and return
 				img.save(outimage)
 				return
-			if meta_em != 21:
+			if meta_em < len(meta) * 7:
 				pix = [b,g,r]
 				for k in range(3):
-					bit = next(bits)
+					bit = next(bits)			
 					pix[k] = bg.setBit(pix[k],bit)
 					end+=1
 					meta_em+=1
 					img.putpixel((i,j),(pix[2],pix[1],pix[0],a))
+
 			else:
 				bit = next(bits)
 				a = bg.setBit(a,bit)        		  # set alpha value as the bit data
@@ -107,19 +108,19 @@ def lsb_alpha_embed(fileobj,imagename,outimage,typef):
 
 
 
-def lsb_alpha_retv(filename,imagename,typef):
+def lsb_alpha_retv(imagename,typef,start):
 	"""Retrieve the data from the resultant image of alpha embed""" 
 	img = Image.open(imagename)                   # open the image
 	width,height = img.size[0],img.size[1]        # grab its width and height
 
-	if typef == 1:                                 # type = 1 stands that the file was a text file
-		file = open(filename,'a')                 # open the output text file as write mode
+	# if typef == 1:                                 # type = 1 stands that the file was a text file
+	# 	file = open(filename,'w')                 # open the output text file as write mode
 
 	bin_data = ''                                 # bin_data to hold the binary data result
 	length = 0                                    # used to check the length of binary data
 	main_data = ''
-	for j in range(height):
-		for i in range(width):                    # traverse through each pixel
+	for j in range(0,height):
+		for i in range(0,width):                    # traverse through each pixel
 			a = img.getpixel((i,j))[3]            # grab the alpha channel only
 			bit_data = a & 0b00000001			  # get the right most bit
 			bin_data = str(bit_data) + bin_data   # concatenate to bin_data in reverse order
@@ -128,15 +129,15 @@ def lsb_alpha_retv(filename,imagename,typef):
 			if length == 7:                       # if length is 7 it means we have an ascii character/symbol/digit
 				length = 0                        # reset length 
 				data = chr(int(bin_data,2))       # convert the binary data to character
+				print(data)
 				bin_data = ''                     # reset binary data
 				if data == '\x00':                # if the converted data is null it means we have reached end of file
-					file.write(main_data[1:])
-					file.close()                  # close the file and return
-					return
+					main_data = main_data[start // 3 + 1:]
+					return main_data
 				else: 
 					main_data+=data		      # until the end of file is reached write the data to the file
 			
-def retv(filename,imagename,typef):
+def retv(imagename,typef):
 	"""Do decide which retrieval algorithm to use"""
 	img = cv2.imread(imagename,-1)
 	width,height = img.shape[1],img.shape[0]
@@ -154,13 +155,23 @@ def retv(filename,imagename,typef):
 					length = 0					   
 					data = chr(int(bin_data,2))     
 					bin_data = '' 
+					if data == ':':
+						start = len(meta)
+						print(start)
+						print(meta)
+						meta = meta.split('|')
+						
+						data_dict = {meta[1]:''}
+
+						index = int(meta[1])
+						if meta[0] == 'lsb':
+
+							data_dict[index] = lsb_retv(imagename,typef,start+1)
+						else:
+							data_dict[index] = lsb_alpha_retv(imagename,typef,start+1)
+						return data_dict
 					meta += data
-					if len(meta) == 3:
-						if meta == 'lsb':
-							lsb_retv(filename,imagename,typef)
-						elif meta == 'lsa':
-							lsb_alpha_retv(filename,imagename,typef)
-						return
+
 
 
 
