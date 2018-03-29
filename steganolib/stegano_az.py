@@ -68,7 +68,6 @@ def lsb_alpha_embed(fileobj,imagename,outimage,typef,meta):
 	"""Method to embed data to apha channel of the image"""
 	if len(meta) % 3 != 0:
 		meta = meta + (3 - len(meta)%3)*' '
-	print(meta,len(meta))
 	if typef == 1:                                  # 1 means text file
 		bits = bg.bitGen_text(fileobj,meta)            # send the filename to bit generator
 
@@ -129,10 +128,9 @@ def lsb_alpha_retv(imagename,typef,start):
 			if length == 7:                       # if length is 7 it means we have an ascii character/symbol/digit
 				length = 0                        # reset length 
 				data = chr(int(bin_data,2))       # convert the binary data to character
-				print(data)
 				bin_data = ''                     # reset binary data
 				if data == '\x00':                # if the converted data is null it means we have reached end of file
-					main_data = main_data[start // 3 + 1:]
+					main_data = main_data[start // 3:]
 					return main_data
 				else: 
 					main_data+=data		      # until the end of file is reached write the data to the file
@@ -157,8 +155,7 @@ def retv(imagename,typef):
 					bin_data = '' 
 					if data == ':':
 						start = len(meta)
-						print(start)
-						print(meta)
+
 						meta = meta.split('|')
 						
 						data_dict = {meta[1]:''}
