@@ -56,9 +56,39 @@ def algo_menu(choice,typef,algo_choice=0):
 		file.close()
 		print('Merged to file')
 
+def watermarking(choice):
+	ch = int(input("Enter number of image files : "))
+
+	if choice is 3:
+		mark = input('Enter the water mark : ')
+		for i in range(ch):
+			print('Enter for image no :',(i+1))
+			imageIn_loc = input('Enter the source image location : ')
+			imageIn_name = input('Enter the image file name WITH extention : ')
+			imageOut_loc = input('Enter the output image location : ')
+			imageOut_name = input('Enter the image file name WITHOUT extention : ')	
+			
+			imageIn = imageIn_loc + '/' + imageIn_name
+
+			imageOut = imageOut_loc + '/' + imageOut_name + '.png'
+			stg_az.water(imageIn,imageOut,mark)
+			print('Water marking Successful')
+	else:
+		mark = input('Enter the water mark for checking the ownership : ')
+		for i in  range(ch):
+			imageOut_loc = input('Enter the output image location : ')
+			imageOut_name = input('Enter the image file name WITHOUT extention : ')	
+			imageOut = imageOut_loc + '/' + imageOut_name + '.png'
+
+			if stg_az.validate(imageOut,mark) is True:
+				print('Water mark found')
+			else:
+				print('Water mark not found')
+			
+
 
 def menu():
-	print('Choose a method or press 0 to exit\n1.Embed\n2.Retrieve')
+	print('Choose a method or press 0 to exit\n1.Embed\n2.Retrieve\n3.Water Mark\n4.Check Ownership')
 	choice = int(input('Enter your choice : '))
 	print('\n')
 
@@ -98,6 +128,8 @@ def menu():
 		print('\n')
 		
 		algo_menu(choice,typef)
+	elif choice is 3 or choice is 4:
+		watermarking(choice)
 	else:
 		print('Invalid option')
 
