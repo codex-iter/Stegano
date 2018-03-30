@@ -19,8 +19,9 @@ def algo_menu(choice,typef,algo_choice=0):
 		file = open(fileOut,'w')
 		data_base ={}
 
-	for i in range(ch):
-		if choice is 1:
+	
+	if choice is 1:
+		for i in range(ch):
 			print('Enter for image no :',(i+1))
 			imageIn_loc = input('Enter the source image location : ')
 			imageIn_name = input('Enter the image file name WITH extention : ')
@@ -40,7 +41,8 @@ def algo_menu(choice,typef,algo_choice=0):
 
 			print('Successfully embeded')
 
-		elif choice is 2:
+	elif choice is 2:
+		for i in range(ch):
 			print('Extracting from image no :',(i+1))
 			imageOut_loc = input('Enter the output image location : ')
 			imageOut_name = input('Enter the image file name WITHOUT extention : ')
