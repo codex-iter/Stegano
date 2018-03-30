@@ -31,3 +31,11 @@ def chunk(reader,lent):
 		k+=chunk_size
 	reader_db.append(reader[k:]+'\x00')
 	return reader_db
+
+def water_mark(cred):
+	while True:
+		for i in range(len(cred)):
+			char = ord(cred[i])
+			for j in range(7):
+				yield char & 1
+				char = char >> 1
