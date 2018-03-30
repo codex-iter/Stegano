@@ -134,6 +134,52 @@ def lsb_alpha_retv(imagename,typef,start):
 					return main_data
 				else: 
 					main_data+=data		      # until the end of file is reached write the data to the file
+
+def water(imagename,outimage,cred):
+	img = cv2.imread(imagename,-1)
+
+	width,height = img.shape[1],img.shape[0]
+
+	bits = bg.water_mark(cred)
+
+	for j in range(height):
+		for i in range(width):
+			pix = img[j,i].copy()
+			for k in range(3):
+				bit = next(bits)                   
+				pix[k] = bg.setBit(pix[k],bit)
+			img[j,i] = pix
+
+	cv2.imwrite(outimage,img)
+
+
+def validate(imagename,cred):
+	img = cv2.imread(imagename,-1)
+
+	width,height = img.shape[1],img.shape[0]
+
+	bin_data = ''
+	length = 0
+	val_str = ''
+	for j in range(height):
+		for i in range(width):
+			pix = img[j,i].copy()
+			for k in range(3):
+				bit = pix[k] & 0b00000001
+				bin_data = str(bit) + bin_data
+				length += 1
+				if length%7 == 0:
+					char =  chr(int(bin_data,2))
+					bin_data = ''
+					val_str += char
+
+			if cred in val_str:
+				return True
+	return False
+
+
+
+
 			
 def retv(imagename,typef):
 	"""Do decide which retrieval algorithm to use"""

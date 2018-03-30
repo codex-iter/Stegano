@@ -26,13 +26,38 @@ data_base = {}
 # file.write(data_base[1])
 # file.close()
 
-meta = 'lsa' + '|' + '2' + ':'
-stg.lsb_alpha_embed(reader,imgin2,imgout2,1,meta)
-data_base.update(stg.retv(imgout2,1))
+# meta = 'lsa' + '|' + '2' + ':'
+# stg.lsb_alpha_embed(reader,imgin2,imgout2,1,meta)
+# data_base.update(stg.retv(imgout2,1))
 
-file = open(fileout,'w')
-file.write(data_base[2])
-file.close()
+# file = open(fileout,'w')
+# file.write(data_base[2])
+# file.close()
 
+# mark = 'azm'
+# bits = bg.water_mark(mark)
 
+# binD = ''
+# ver_mark = ''
 
+# for k in range(21) :
+# 	binD = str(next(bits)) + binD
+
+# for i in range(len(mark)):
+# 	raw = binD[i*7:(i+1)*7].reverse()
+# 	raw = chr(int(raw,2))
+# 	if raw.isalpha():
+# 		ver_mark += raw
+# 		if mark in ver_mark:
+# 			break
+# print(ver_mark,mark)
+
+water_in = '/home/loopaz/Desktop/wat.jpg'
+water_out = '/home/loopaz/Desktop/wat_out.png'
+mark = 'azm'
+stg.water(water_in,water_out,mark)
+
+if stg.validate(water_out,mark) is True:
+	print('water mark found')
+else:
+	print('water mark not found')
