@@ -5,3 +5,4 @@ output.txt
 steganolib/__pycache__/
 eimagealpha.png
 outalpha.txt
+.ropeproject/config.py
