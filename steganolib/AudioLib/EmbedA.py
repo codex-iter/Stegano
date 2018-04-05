@@ -49,7 +49,7 @@ if spreading_factor >= 100:                     #find optimal spread factor
                               destiny_file.writeframes(buf)                                  #write the buffer
                               buf = bytearray(audio_file.readframes(spreading_factor))
                         except wave.Error as e:
-                              print((str(e))
+                              print(str(e))
 
                   print ("100%")
                   print ("\nProcess done!")
