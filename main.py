@@ -2,10 +2,10 @@ from steganolib import stegano_az as stg_az
 from steganolib import bitgen as bg
 
 def algo_menu(choice,typef,algo_choice=0): 
-	ch = int(input("Enter number of image files : "))
+	ch = int(input("Enter number of image files to use : "))
 	if choice is 1:
-		fileIn_loc = input('Enter the location of file : ')
-		fileIn_name = input('Enter the name of the file WITH extention : ')
+		fileIn_loc = input('Enter the location of input data file : ')
+		fileIn_name = input('Enter the name of the input data file WITH extention : ')
 		fileIn = fileIn_loc + '/' + fileIn_name
 		file = open(fileIn)
 		reader = file.read()
@@ -13,8 +13,8 @@ def algo_menu(choice,typef,algo_choice=0):
 		reader_db = bg.chunk(reader,ch)
 
 	elif choice is 2:
-		fileOut_loc = input('Enter the location of file : ')
-		fileOut_name = input('Enter the name of the file WITH extention : ')
+		fileOut_loc = input('Enter the location of output data file : ')
+		fileOut_name = input('Enter the name of the output data file WITH extention : ')
 		fileOut = fileOut_loc + '/' + fileOut_name
 		file = open(fileOut,'w')
 		data_base ={}
@@ -51,17 +51,14 @@ def algo_menu(choice,typef,algo_choice=0):
 
 			data_base.update(stg_az.retv(imageOut,typef))
 			print('Successfully retrieved')
-
-	if choice is 2:
 		for order in range(ch):
 			file.write(data_base[order])
 		file.close()
 		print('Merged to file')
 
 def watermarking(choice):
-	ch = int(input("Enter number of image files : "))
-
 	if choice is 3:
+		ch = int(input("Enter number of image files for: "))
 		mark = input('Enter the water mark : ')
 		for i in range(ch):
 			print('Enter for image no :',(i+1))
@@ -76,6 +73,7 @@ def watermarking(choice):
 			stg_az.water(imageIn,imageOut,mark)
 			print('Water marking Successful')
 	else:
+		ch = int(input("Enter number of image files for checking signature : "))
 		mark = input('Enter the water mark for checking the ownership : ')
 		for i in  range(ch):
 			imageOut_loc = input('Enter the output image location : ')
