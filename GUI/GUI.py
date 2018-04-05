@@ -13,7 +13,6 @@ class Center(QWidget):
 
     def initUI(self):
 
-
         hbox = QHBoxLayout(self)
 
         topleft = QFrame(self)
@@ -63,7 +62,6 @@ class GUI(QMainWindow):
         self.toolbar.addAction(Embed)
         self.toolbar.addAction(Retreive)
         #self.toolbar.setOrientation(Qt.Vertical)
-
         Embed.setToolTip('Write Data into your medium.')
         Retreive.setToolTip('Read Data from your medium.')
 
@@ -73,13 +71,11 @@ class GUI(QMainWindow):
 
         Central=Center()
         self.setCentralWidget(Central)
-
         self.setGeometry(300, 300, 300, 320)
         self.setWindowTitle('Stegano')
         self.setWindowIcon(QIcon('Logo PNG.png'))
         self.center()
         self.show()
-
 
     def closeEvent(self, event):                      #redifining close event for simple message box
         reply = QMessageBox.question(self, 'Message',
@@ -91,7 +87,7 @@ class GUI(QMainWindow):
         else:
             event.ignore()
 
-    def center(self):
+    def center(self):                                   #centering on screen
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
