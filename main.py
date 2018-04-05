@@ -76,6 +76,7 @@ def watermarking(choice):
 		ch = int(input("Enter number of image files for checking signature : "))
 		mark = input('Enter the water mark for checking the ownership : ')
 		for i in  range(ch):
+			print('Enter for image no :',(i+1))
 			imageOut_loc = input('Enter the output image location : ')
 			imageOut_name = input('Enter the image file name WITHOUT extention : ')	
 			imageOut = imageOut_loc + '/' + imageOut_name + '.png'
