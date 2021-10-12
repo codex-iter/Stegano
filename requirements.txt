@@ -1,5 +1,5 @@
 Pillow
 numpy==1.14.2
-opencv-python==3.4.0.12
+opencv-python==3.4.7.28
 PyQt5==5.10.1
 sip==4.19.8
