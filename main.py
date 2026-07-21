@@ -5,7 +5,7 @@ def algo_menu(choice,typef,algo_choice=0):
 	ch = int(input("Enter number of image files to use : "))
 	if choice is 1:
 		fileIn_loc = input('Enter the location of input data file : ')
-		fileIn_name = input('Enter the name of the input data file WITH extention : ')
+		fileIn_name = input('Enter the name of the input data file WITH extension : ')
 		fileIn = fileIn_loc + '/' + fileIn_name
 		file = open(fileIn)
 		reader = file.read()
@@ -14,7 +14,7 @@ def algo_menu(choice,typef,algo_choice=0):
 
 	elif choice is 2:
 		fileOut_loc = input('Enter the location of output data file : ')
-		fileOut_name = input('Enter the name of the output data file WITH extention : ')
+		fileOut_name = input('Enter the name of the output data file WITH extension : ')
 		fileOut = fileOut_loc + '/' + fileOut_name
 		file = open(fileOut,'w')
 		data_base ={}
@@ -24,9 +24,9 @@ def algo_menu(choice,typef,algo_choice=0):
 		for i in range(ch):
 			print('Enter for image no :',(i+1))
 			imageIn_loc = input('Enter the source image location : ')
-			imageIn_name = input('Enter the image file name WITH extention : ')
+			imageIn_name = input('Enter the image file name WITH extension : ')
 			imageOut_loc = input('Enter the output image location : ')
-			imageOut_name = input('Enter the image file name WITHOUT extention : ')	
+			imageOut_name = input('Enter the image file name WITHOUT extension : ')	
 			
 			imageIn = imageIn_loc + '/' + imageIn_name
 
@@ -45,7 +45,7 @@ def algo_menu(choice,typef,algo_choice=0):
 		for i in range(ch):
 			print('Extracting from image no :',(i+1))
 			imageOut_loc = input('Enter the output image location : ')
-			imageOut_name = input('Enter the image file name WITHOUT extention : ')
+			imageOut_name = input('Enter the image file name WITHOUT extension : ')
 			
 			imageOut = imageOut_loc + '/' + imageOut_name + '.png'
 
@@ -63,9 +63,9 @@ def watermarking(choice):
 		for i in range(ch):
 			print('Enter for image no :',(i+1))
 			imageIn_loc = input('Enter the source image location : ')
-			imageIn_name = input('Enter the image file name WITH extention : ')
+			imageIn_name = input('Enter the image file name WITH extension : ')
 			imageOut_loc = input('Enter the output image location : ')
-			imageOut_name = input('Enter the image file name WITHOUT extention : ')	
+			imageOut_name = input('Enter the image file name WITHOUT extension : ')	
 			
 			imageIn = imageIn_loc + '/' + imageIn_name
 
@@ -78,7 +78,7 @@ def watermarking(choice):
 		for i in  range(ch):
 			print('Enter for image no :',(i+1))
 			imageOut_loc = input('Enter the output image location : ')
-			imageOut_name = input('Enter the image file name WITHOUT extention : ')	
+			imageOut_name = input('Enter the image file name WITHOUT extension : ')	
 			imageOut = imageOut_loc + '/' + imageOut_name + '.png'
 
 			if stg_az.validate(imageOut,mark) is True:
